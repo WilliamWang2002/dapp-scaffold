@@ -32,7 +32,7 @@ export const TransactionTab: FC = () => {
             const transaction = new Transaction().add(
                 SystemProgram.transfer({
                     fromPubkey: publicKey,
-                    // toPubkey: Keypair.generate().publicKey,
+                    // toPubkey: Keypair.generate().publicKey
                     toPubkey: receiverAddress,
                     lamports: amount * LAMPORTS_PER_SOL,
                 })
