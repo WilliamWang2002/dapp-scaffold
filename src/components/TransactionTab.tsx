@@ -13,7 +13,7 @@ import { notify } from "../utils/notifications";
 export const TransactionTab: FC = () => {
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
-    const [amount, setAmount] = useState<number>();
+    const [amount, setAmount] = useState<number>(0);
     const [receiverAddressString, setReceiverAddress] = useState("");
     console.log(receiverAddressString);
    
@@ -27,12 +27,13 @@ export const TransactionTab: FC = () => {
 
         let signature: TransactionSignature = "";
         try {
-            // const receiverAddress = new PublicKey(receiverAddressString);
-            // console.log(receiverAddress);
+            const receiverAddress = new PublicKey(receiverAddressString);
+            console.log(receiverAddress);
             const transaction = new Transaction().add(
                 SystemProgram.transfer({
                     fromPubkey: publicKey,
-                    toPubkey: Keypair.generate().publicKey,
+                    // toPubkey: Keypair.generate().publicKey,
+                    toPubkey: receiverAddress,
                     lamports: amount * LAMPORTS_PER_SOL,
                 })
             );
@@ -72,6 +73,7 @@ export const TransactionTab: FC = () => {
                     onChange={(e) => setAmount(parseFloat(e.currentTarget.value))}
                     placeholder="Enter amount"
                     step={0.001}
+                    type='number'
                     value={amount}
                 />
             </div>
